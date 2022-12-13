@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Header } from "./components/Header/Header";
+import { Main } from "./components/Main/Main";
+import { Layout } from "antd";
+import { countryPhotos } from "./store/CountryPhotos";
+import { Sidebar } from "./components/Header/Sidebar/Sidebar";
+import "antd/dist/reset.css";
+import "./styles/styles.css";
+import "./styles/media.css";
+import { observer } from "mobx-react-lite";
 
-function App() {
+const { Sider, Content } = Layout;
+
+export const App: React.FC = observer(() => {
+  const { open } = countryPhotos;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="app__container">
+      <Header />
+      <Layout>
+        <Sider
+          className={open ? "hidden__side" : "side"}
+          trigger={null}
+          collapsed={open}
+          style={{
+            background: "rgba(255, 255, 255, 0.3)",
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Sidebar />
+        </Sider>
+        <Layout className="site-layout">
+          <Content
+            className="site-layout-background"
+            style={{
+              minHeight: 280,
+            }}
+          >
+            <Main />
+          </Content>
+        </Layout>
+      </Layout>
     </div>
   );
-}
-
-export default App;
+});

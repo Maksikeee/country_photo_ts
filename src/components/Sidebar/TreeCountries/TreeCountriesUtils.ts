@@ -1,14 +1,17 @@
-import {ICountry, IContinent } from "./Menu.interfaces"
+import {ICountry, IContinent } from "./TreeCountries.interfaces"
 
   function getItem(
     name: string,
     code: string,
-    countries?: ICountry[]
+    __typename: string,
+    countries?: ICountry[],
   ): IContinent {
     return {
       name,
       code,
+      __typename,
       countries,
+      
     } as IContinent;
   }
 
@@ -24,8 +27,9 @@ export const items = (searchValue:string) => {
         return getItem(
           continent.name,
           continent.code,
+          continent.__typename,
           continent.countries.map((country: ICountry) => {
-            return getItem(country.name, country.name);
+            return getItem(country.name , country.code, country.__typename);
           })
         );
       });
@@ -34,7 +38,7 @@ export const items = (searchValue:string) => {
       continentsData.continents.map((continent: IContinent) => {
         continent.countries.map((country) => {
           if (country.name.toLowerCase().includes(searchValue)) {
-            arr = [...arr, getItem(country.name, country.name)];
+            arr = [...arr, getItem(country.name , country.code, country.__typename)];
           }
         });
       });

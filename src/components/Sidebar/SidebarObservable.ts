@@ -1,54 +1,35 @@
-import { AUTHORIZATIONT_KEY } from "../../config/config";
-import { IPhotosData } from "../../store/CountryPhotos";
+import { IPhotosData } from "./SidebarObservable.interfaces";
+import { ISidebarStateObserver, ISidebarState, ISubject, ISearchFields } from "./SidebarObservable.interfaces"
+import { getURL, getPhotosData } from "./SidebarObservableUtils";
 
-import { SidebarStateObserver, SidebarState, Subject, ISearchFields } from "./SidebarObservable.interfaces"
 
-export class Sidebar implements Subject {
+export class Sidebar implements ISubject {
 
-  sidebarState: SidebarState = {
-    photosData: {} as IPhotosData,
-    IsLoading: true,
-    isLocalStorage: true
+  constructor() {
+    this.observers = [];
+    this.observersOnChange = [];
   }
+
+  sidebarState: ISidebarState = {
+    photosData: {} as IPhotosData,
+    isLoading: true,
+  }
+
+  private observers: ISidebarStateObserver[];
+  private observersOnChange: ISidebarStateObserver[];
+
 
   searchFields: ISearchFields = {
     urlPage: 1,
     query: "",
   };
 
-  async getImg(obj?: ISearchFields) {
-    this.setSidebarState({ ...this.sidebarState, IsLoading: true })
+  getImg(obj?: ISearchFields) {
+    this.setSidebarState({ ...this.sidebarState, isLoading: true })
     this.notifyObservers()
     this.searchFields = { ...this.searchFields, ...obj };
-    const baseURL = `https://api.pexels.com/v1/search/?page=${this.searchFields.urlPage}&per_page=9&query=${this.searchFields.query}`;
-    this.loadPhotos(baseURL);
-  }
-
-  async loadPhotos(baseURL: string) {
-    fetch(baseURL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: AUTHORIZATIONT_KEY
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.total_results !== this.sidebarState.photosData.total_results) {
-          this.notifyObserversOnChange()
-        }
-        this.setSidebarState({ photosData: data, IsLoading: false })
-
-      })
-      .then(() => this.notifyObservers())
-  }
-
-  private observers: SidebarStateObserver[];
-  private observersOnChange: SidebarStateObserver[];
-
-  constructor() {
-    this.observers = [];
-    this.observersOnChange = [];
+    const completeURL = getURL(this.searchFields.urlPage, this.searchFields.query)
+    getPhotosData(completeURL);
   }
 
   current = 1;
@@ -56,31 +37,37 @@ export class Sidebar implements Subject {
     this.current = page;
   }
 
-  registerObserver = (o: SidebarStateObserver): void => {
+  registerObserver = (o: ISidebarStateObserver): void => {
     this.observers.push(o);
+
   };
 
-  registerObserverOnChange = (o: SidebarStateObserver): void => {
+  registerObserverOnChange = (o: ISidebarStateObserver): void => {
     this.observersOnChange.push(o);
+
   };
 
-  setSidebarState = (state: SidebarState) => {
+  setSidebarState = (state: ISidebarState) => {
     this.sidebarState = state;
     this.notifyObservers();
   };
 
   notifyObservers = (): void => {
-    this.observers.forEach((observer: SidebarStateObserver) => observer.updated(this.sidebarState));
+    this.observers.forEach((observer: ISidebarStateObserver) => observer.updated(this.sidebarState));
   };
 
   notifyObserversOnChange = (): void => {
-    this.observersOnChange.forEach((observer: SidebarStateObserver) => observer.updated(this.sidebarState));
+    this.observersOnChange.forEach((observer: ISidebarStateObserver) => observer.updated(this.sidebarState));
   };
 
-  removeObserver = (o: SidebarStateObserver): void => {
+  removeObserver = (o: ISidebarStateObserver): void => {
     this.observers.splice(this.observers.indexOf(o), 1);
   };
 
+  removeObserverOnChange = (o: ISidebarStateObserver): void => {
+    this.observersOnChange.splice(this.observersOnChange.indexOf(o), 1);
+  };
+
 };
-const sidebar = new Sidebar();
-export default sidebar
+const sidebarObservable = new Sidebar();
+export default sidebarObservable

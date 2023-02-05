@@ -1,35 +1,20 @@
 import React, { useState } from "react";
 import { Input, Drawer } from "antd";
 import { countryPhotos } from "../../store/CountryPhotos";
-import sidebarObservable from "./SidebarObservable";
-import { Menu } from "./Menu/Menu";
+import { TreeCountries } from "./TreeCountries/TreeCountries";
 
 const { Search } = Input;
 
 export const Sidebar: React.FC = () => {
-  const { open, setMainTitle, setCurrent, setBeadCrumb, breadCrumb } =
-    countryPhotos;
+  const { isOpenSidebar } = countryPhotos;
   const [searchValue, setSearchValue] = useState<string>("");
 
   const onSearch = (value: string): void => {
     setSearchValue(value.toLowerCase());
   };
 
-  const onChange = (searchCountry: string) => {
-    if (breadCrumb[0] !== searchCountry) {
-      sidebarObservable.getImg({
-        query: searchCountry,
-        urlPage: 1,
-      });
-      setMainTitle(searchCountry);
-      setCurrent(1);
-      setBeadCrumb(searchCountry);
-      sidebarObservable.notifyObserversOnChange();
-    }
-  };
-
   return (
-    <div className="super">
+    <div className="sidebar">
       <Drawer
         width="260px"
         style={{
@@ -37,10 +22,10 @@ export const Sidebar: React.FC = () => {
           overflow: "hidden",
         }}
         contentWrapperStyle={{ boxShadow: "none" }}
-        getContainer=".super"
+        getContainer=".sidebar"
         mask={false}
         placement="left"
-        open={!open}
+        open={!isOpenSidebar}
         closable={false}
       >
         <Search
@@ -49,7 +34,7 @@ export const Sidebar: React.FC = () => {
           enterButton
           style={{ marginBottom: "10px" }}
         />
-        <Menu searchValue={searchValue} ClickHandle={onChange} />
+        <TreeCountries searchValue={searchValue} />
       </Drawer>
     </div>
   );

@@ -1,21 +1,17 @@
-import { IPhotosData } from "../../store/CountryPhotos";
-
-
-export interface SidebarStateObserver {
-    updated:(state: SidebarState) => void;
+export interface ISidebarStateObserver {
+    updated:(state: ISidebarState) => void;
 }
 
-export interface SidebarState {
+export interface ISidebarState {
   photosData: IPhotosData;
-  IsLoading: boolean;
-  isLocalStorage?: boolean;
+  isLoading: boolean;
   openModal?: boolean;
   imgLink?: string
 }
 
-export interface Subject {
-  registerObserver: (o: SidebarStateObserver) => void;
-  removeObserver: (o: SidebarStateObserver) => void;
+export interface ISubject {
+  registerObserver: (o: ISidebarStateObserver) => void;
+  removeObserver: (o: ISidebarStateObserver) => void;
   notifyObservers: () => void;
 }
 
@@ -24,5 +20,28 @@ export interface ISearchFields {
   query?: string;
 }
 
+export interface IPhotosDataItemSrc {
+  landscape: string;
+  large: string;
+  large2x: string;
+  medium: string;
+  original: string;
+  portrait: string;
+  small: string;
+  tiny: string;
+}
+
+export interface IPhotosDataItem {
+  id: string;
+  photographer: string;
+  src: IPhotosDataItemSrc
+}
+
+export interface IPhotosData {
+  page: string;
+  per_page: string;
+  total_results: number;
+  photos: IPhotosDataItem[];
+}
 
 

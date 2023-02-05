@@ -5,7 +5,7 @@ export const SkeletonsMain: React.FC = () => {
   return (
     <>
       <Col
-        className="image-row"
+        className="image-wrapper"
         flex="stretch"
         style={{
           width: "33%",

@@ -4,7 +4,7 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { countryPhotos } from "../../store/CountryPhotos";
 
 export const Header: React.FC = () => {
-  const { open, showDrawer } = countryPhotos;
+  const { isOpenSidebar, setIsOpenSidebar } = countryPhotos;
   return (
     <header className="header">
       <Row
@@ -14,10 +14,13 @@ export const Header: React.FC = () => {
         style={{ height: "45px" }}
       >
         <Col flex="none" style={{ fontSize: "20px" }}>
-          {React.createElement(open ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: "trigger",
-            onClick: showDrawer,
-          })}
+          {React.createElement(
+            isOpenSidebar ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "header__sidebar-trigger",
+              onClick: setIsOpenSidebar,
+            }
+          )}
         </Col>
         <Col
           flex="auto"

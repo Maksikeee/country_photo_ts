@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { SaveOutlined } from "@ant-design/icons";
 import { Row } from "antd";
-import { IPhotosDataItem } from "../../../../store/CountryPhotos";
+import { IPhotosDataItem } from "../../../Sidebar/SidebarObservable.interfaces";
 
 interface ICountryPhotoItemFooterProps {
   showModal: (isOpen: boolean, photo?: IPhotosDataItem) => void;

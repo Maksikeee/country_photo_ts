@@ -3,7 +3,7 @@ import { Image, Col } from "antd";
 import {
   IPhotosDataItem,
   IPhotosDataItemSrc,
-} from "../../../../store/CountryPhotos";
+} from "../../../Sidebar/SidebarObservable.interfaces";
 import { SaveModal } from "./SaveModal";
 import { CountryPhotoItemFooter } from "./CountryPhotoItemFooter";
 
@@ -29,13 +29,12 @@ export const CountryPhotoItem: FC<ICountryPhotoItemProps> = ({ photoItem }) => {
 
   return (
     <Col
-      className="image-row"
+      className="image-wrapper"
       flex="stretch"
       style={{
         width: "33%",
         marginBottom: "10px",
       }}
-      key={photoItem.id}
     >
       <Image
         height={430}

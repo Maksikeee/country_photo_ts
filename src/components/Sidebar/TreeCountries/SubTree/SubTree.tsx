@@ -1,6 +1,6 @@
 import { FC, useRef } from "react";
 import { TreeItem } from "../TreeItem/TreeItem";
-import { IContinent, ICountry } from "../Menu.interfaces";
+import { IContinent, ICountry } from "../TreeCountries.interfaces";
 
 type SubMenuProps = {
   item: IContinent;
@@ -17,9 +17,10 @@ export const SubTree: FC<SubMenuProps> = ({
 
   const isSubNavOpen = (item: string, countries: ICountry[]) =>
     countries.some((i) => i.name === activeItem) || item === activeItem;
+
   return (
     <div
-      className={`sub-nav ${
+      className={`sidebar__sub-tree ${
         isSubNavOpen(item.name, item.countries) ? "open" : ""
       }`}
       style={{
@@ -28,10 +29,10 @@ export const SubTree: FC<SubMenuProps> = ({
           : navRef.current?.clientHeight,
       }}
     >
-      <div ref={navRef} className="sub-nav-inner">
+      <div ref={navRef} className="sidebar__sub-tree-inner">
         {item?.countries.map((subItem) => (
           <TreeItem
-            key={subItem.code}
+            key={subItem.name + subItem.code}
             onClick={handleClick}
             name={subItem.name}
             isActive={activeItem === subItem.name}

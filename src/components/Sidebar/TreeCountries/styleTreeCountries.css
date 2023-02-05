@@ -1,0 +1,46 @@
+button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar__tree-countries button {
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 0 25px;
+  color: #1a1a1a;
+  transition: all 0.2s;
+}
+
+.sidebar__tree-countries button:hover {
+  background: #e8e8e8;
+}
+
+.sidebar__tree-countries button span:nth-child(2) {
+  flex: 1 1 auto;
+}
+
+.sidebar__tree-countries button.active {
+  background: #409eff;
+  color: #fff;
+}
+
+.sidebar__sub-tree {
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.sidebar__sub-tree button {
+  padding-left: 64px;
+}

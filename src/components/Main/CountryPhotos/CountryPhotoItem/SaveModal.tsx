@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {
   IPhotosDataItem,
   IPhotosDataItemSrc,
-} from "../../../../store/CountryPhotos";
+} from "../../../Sidebar/SidebarObservable.interfaces";
 
 interface IOption {
   label: string;

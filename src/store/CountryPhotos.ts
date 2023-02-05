@@ -1,19 +1,14 @@
-import { makeAutoObservable, runInAction } from "mobx";
-
-interface ISearchFields {
-  urlPage:number; 
-  query?: string
-}
+import { makeAutoObservable } from "mobx";
 
 export interface IPhotosDataItemSrc {
-    landscape: string;
-    large: string;
-    large2x: string;
-    medium: string;
-    original: string;
-    portrait: string;
-    small: string;
-    tiny: string;
+  landscape: string;
+  large: string;
+  large2x: string;
+  medium: string;
+  original: string;
+  portrait: string;
+  small: string;
+  tiny: string;
 }
 
 export interface IPhotosDataItem {
@@ -22,14 +17,14 @@ export interface IPhotosDataItem {
   src: IPhotosDataItemSrc
 }
 
-interface IPhotosData {
+export interface IPhotosData {
   page: string;
   per_page: string;
   total_results: number;
-  photos: IPhotosDataItem[]
+  photos: IPhotosDataItem[];
 }
 
-class CountryPhotos{
+class CountryPhotos {
 
   constructor() {
     makeAutoObservable(this, undefined, {
@@ -37,61 +32,40 @@ class CountryPhotos{
     });
   }
 
+  isLoadingLocalStorage = true
+
+  setIsLoadingLocalStorage(isLoading: boolean){
+    if(isLoading !== this.isLoadingLocalStorage) this.isLoadingLocalStorage = isLoading
+  }
+
+  imgLink = "";
+  setImgLink(value: string){
+    this.imgLink = value
+  }
+
   loading: boolean = true;
 
-  
-
-  searchFields:ISearchFields = {
-    urlPage: 1,
-    query: "Angola",
-  };
-
-  mainTitle = "Angola";
-  setMainTitle(searchCountry:string): void {
-    this.mainTitle = searchCountry;
+  mainTitle = "";
+  setMainTitle(searchCountry: string): void {
+    if(this.mainTitle !== searchCountry) this.mainTitle = searchCountry;
   }
-  
- 
 
-  open:boolean = true;
-  showDrawer():void {
+  open: boolean = true;
+  showDrawer(): void {
     this.open = !this.open
   }
 
   photosData = {} as IPhotosData;
-  async getImg(obj?: ISearchFields) {
-    this.loading = true;
-
-    this.searchFields = { ...this.searchFields, ...obj };
-
-    const baseURL = `https://api.pexels.com/v1/search/?page=${this.searchFields.urlPage}&per_page=9&query=${this.searchFields.query}`;
-    this.loadPhotos(baseURL);
-  }
-
-  async loadPhotos(baseURL: string) {
-    fetch(baseURL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization:
-          "563492ad6f917000010000017bebf3a461ef4a8aa29c664153802a43",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) =>
-        runInAction(() => {
-          this.photosData = data;
-          this.loading = false;
-        })
-      );
-  }
 
   current = 1;
   setCurrent(page: number) {
     this.current = page;
   }
 
-  breadCrumb = [this.mainTitle];
+  returnObj = JSON.parse(localStorage.getItem("continents") as string)
+
+
+  breadCrumb: string[] = [];
   setBeadCrumb(historyValue: string) {
     if (this.breadCrumb.length >= 5) {
       this.breadCrumb.pop();
@@ -100,6 +74,7 @@ class CountryPhotos{
       this.breadCrumb = [historyValue, ...this.breadCrumb];
     }
   }
+  
 }
 
 const countryPhotos = new CountryPhotos();

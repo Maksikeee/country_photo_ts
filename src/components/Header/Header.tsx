@@ -6,7 +6,7 @@ import { countryPhotos } from "../../store/CountryPhotos";
 export const Header: React.FC = () => {
   const { open, showDrawer } = countryPhotos;
   return (
-    <div className="header">
+    <header className="header">
       <Row
         wrap={false}
         justify="center"
@@ -32,6 +32,6 @@ export const Header: React.FC = () => {
         </Col>
       </Row>
       <Divider style={{ margin: "0" }} />
-    </div>
+    </header>
   );
 };

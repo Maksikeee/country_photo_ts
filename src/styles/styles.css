@@ -6,6 +6,11 @@ body {
   display: none !important;
 }
 
+.ant-drawer-body {
+  padding: 8px 0 0 !important;
+  margin: 0 12px;
+}
+
 .ant-breadcrumb li {
   color: #606266;
   font-weight: normal;
@@ -79,6 +84,7 @@ body {
 
 .header {
   padding: 0 15px;
+  margin-bottom: 10px;
 }
 
 .main {

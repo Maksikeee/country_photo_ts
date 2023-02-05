@@ -2,16 +2,16 @@ import { Breadcrumb } from "antd";
 import React from "react";
 import { countryPhotos } from "../../../store/CountryPhotos";
 import { RightOutlined } from "@ant-design/icons";
+import sidebarObservable from "../../Sidebar/SidebarObservable";
 
 export const Crumb: React.FC = () => {
-  const { getImg, setMainTitle, setCurrent, breadCrumb, setBeadCrumb } =
-    countryPhotos;
+  const { setMainTitle, setCurrent, breadCrumb, setBeadCrumb } = countryPhotos;
 
   const onClick = (searchCountry: React.MouseEvent<HTMLSpanElement>) => {
     if (
       breadCrumb[0] !== (searchCountry.target as HTMLSpanElement).textContent
     ) {
-      getImg({
+      sidebarObservable.getImg({
         query: (searchCountry.target as HTMLSpanElement).textContent || "",
         urlPage: 1,
       });

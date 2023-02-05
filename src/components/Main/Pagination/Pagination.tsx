@@ -1,31 +1,45 @@
 import { Pagination } from "antd";
-import { useEffect } from "react";
-import { countryPhotos } from "../../../store/CountryPhotos";
-import { observer } from "mobx-react-lite";
+import { Component } from "react";
+import sidebarObservable from "../../Sidebar/SidebarObservable";
 
-export const PagePagination = observer(() => {
-  const { photosData, getImg, current, setCurrent } = countryPhotos;
+export default class PagePaginationClass extends Component<
+  {},
+  { current: number }
+> {
+  constructor(props: {} | Readonly<{}>) {
+    super(props);
+    this.state = {
+      current: 1,
+    };
+  }
 
-  useEffect(() => {
-    getImg();
-    setCurrent(1);
-  }, []);
-
-  const onChange = (page: number) => {
-    getImg({ urlPage: page });
-    setCurrent(page);
+  updated = (): void => {
+    this.setState({ current: 1 });
   };
-  return (
-    <Pagination
-      style={{
-        width: "260px",
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-      current={current}
-      size="small"
-      onChange={onChange}
-      total={photosData.total_results}
-    />
-  );
-});
+
+  componentDidMount = (): void => {
+    sidebarObservable.setCurrent(1);
+    sidebarObservable.registerObserverOnChange(this);
+  };
+
+  onChange = (page: number): void => {
+    sidebarObservable.getImg({ urlPage: page });
+    this.setState(() => ({ current: page }));
+  };
+
+  render() {
+    return (
+      <Pagination
+        style={{
+          width: "260px",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+        current={this.state.current}
+        size="small"
+        onChange={this.onChange}
+        total={sidebarObservable.sidebarState.photosData.total_results}
+      />
+    );
+  }
+}

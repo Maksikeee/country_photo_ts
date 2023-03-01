@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Skeleton } from "antd";
 
-export const SkeletonsMain: React.FC = () => {
+export const SkeletonPhotoItem: React.FC = () => {
   return (
     <>
       <Col

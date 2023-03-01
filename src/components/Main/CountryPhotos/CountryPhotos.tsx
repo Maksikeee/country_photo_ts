@@ -1,18 +1,17 @@
 import { Component } from "react";
-import { SkeletonsMain } from "./SkeletonsMain";
-import { countryPhotos } from "../../../store/CountryPhotos";
+
+import { CountryPhotoItem } from "./CountryPhotoItem/CountryPhotoItem";
+import { SkeletonPhotoItem } from "./SkeletonMain/SkeletonMain";
+
+import { countryPhotosStore } from "../../../store/CountryPhotos";
+import sidebarObservable from "../../Sidebar/SidebarObservable";
+
 import {
   IPhotosDataItem,
   IPhotosData,
-} from "../../Sidebar/SidebarObservable.interfaces";
-import sidebarObservable from "../../Sidebar/SidebarObservable";
-import {
   ISidebarState,
   ISidebarStateObserver,
-} from "../../Sidebar/SidebarObservable.interfaces";
-import { CountryPhotoItem } from "./CountryPhotoItem/CountryPhotoItem";
-
-const { setMainTitle } = countryPhotos;
+} from "../../Sidebar/Sidebar.interfaces";
 
 export default class CountryPhotos
   extends Component<{}, ISidebarState>
@@ -27,21 +26,22 @@ export default class CountryPhotos
   }
 
   componentDidMount = () => {
-    const returnObj = JSON.parse(localStorage.getItem("continents") as string);
+    const { setMainTitle, treeItems } = countryPhotosStore;
+
     sidebarObservable.registerObserver(this);
-    setMainTitle(returnObj.continents[0].countries[0].name);
+    setMainTitle(treeItems[0].countries[0].name);
     sidebarObservable.getImg({
-      query: returnObj.continents[0].countries[0].name,
+      query: treeItems[0].countries[0].name,
       urlPage: 1,
     });
   };
 
-  componentWillUnmount = () => {
-    sidebarObservable.removeObserver(this);
-  };
-
   updated = (sidebarState: ISidebarState): void => {
     this.setState({ ...sidebarState });
+  };
+
+  componentWillUnmount = () => {
+    sidebarObservable.removeObserver(this);
   };
 
   render() {
@@ -54,7 +54,7 @@ export default class CountryPhotos
         {this.state.isLoading && (
           <>
             {[...Array(6)].map((_, i) => {
-              return <SkeletonsMain key={i} />;
+              return <SkeletonPhotoItem key={i} />;
             })}
           </>
         )}

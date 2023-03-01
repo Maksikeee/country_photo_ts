@@ -1,12 +1,13 @@
 import React from "react";
 import { Col, Row, Divider } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
-import { countryPhotos } from "../../store/CountryPhotos";
+
+import { countryPhotosStore } from "../../store/CountryPhotos";
 
 export const Header: React.FC = () => {
-  const { isOpenSidebar, setIsOpenSidebar } = countryPhotos;
+  const { isOpenSidebar, setIsOpenSidebar } = countryPhotosStore;
   return (
-    <header className="header">
+    <header style={{ padding: "0 15px", marginBottom: "10px" }}>
       <Row
         wrap={false}
         justify="center"
@@ -17,7 +18,6 @@ export const Header: React.FC = () => {
           {React.createElement(
             isOpenSidebar ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
-              className: "header__sidebar-trigger",
               onClick: setIsOpenSidebar,
             }
           )}

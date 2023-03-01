@@ -1,5 +1,6 @@
-import { Pagination } from "antd";
 import { Component } from "react";
+import { Pagination } from "antd";
+
 import sidebarObservable from "../../Sidebar/SidebarObservable";
 
 export default class PagePagination extends Component<{}, { current: number }> {
@@ -10,17 +11,17 @@ export default class PagePagination extends Component<{}, { current: number }> {
     };
   }
 
+  componentDidMount = (): void => {
+    sidebarObservable.setCurrentPage(1);
+    sidebarObservable.registerObserverPagination(this);
+  };
+
   updated = (): void => {
     this.setState({ current: 1 });
   };
 
-  componentDidMount = (): void => {
-    sidebarObservable.setCurrent(1);
-    sidebarObservable.registerObserverOnChange(this);
-  };
-
   componentWillUnmount = () => {
-    sidebarObservable.removeObserverOnChange(this);
+    sidebarObservable.removeObserverPagination(this);
   };
 
   onChange = (page: number): void => {

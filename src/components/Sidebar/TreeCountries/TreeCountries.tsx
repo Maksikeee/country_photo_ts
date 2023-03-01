@@ -1,20 +1,19 @@
 import { FC, useState } from "react";
-import { countryPhotos } from "../../../store/CountryPhotos";
+import { RightOutlined } from "@ant-design/icons";
+
 import { TreeItem } from "./TreeItem/TreeItem";
-import { SubTree } from "./SubTree/SubTree";
-import { IContinent } from "./TreeCountries.interfaces";
-import { items } from "./TreeCountriesUtils";
+
+import { countryPhotosStore } from "../../../store/CountryPhotos";
 import sidebarObservable from "../SidebarObservable";
-import "./styleTreeCountries.css";
+import { getTreeItems } from "./TreeCountriesUtils";
+import { IContinent, ICountry } from "./TreeCountries.interfaces";
 
-type TreeCountriesProps = {
-  searchValue: string;
-};
+import styles from "./styleTreeCountries.module.scss";
 
-export const TreeCountries: FC<TreeCountriesProps> = ({ searchValue }) => {
-  const continentsItems = items(searchValue);
-  const { mainTitle, setMainTitle, setCurrent, setBeadCrumb, breadCrumb } =
-    countryPhotos;
+export const TreeCountries: FC<{ searchValue: string }> = ({ searchValue }) => {
+  const treeItems = getTreeItems(searchValue);
+  const { mainTitle, setMainTitle, setBeadCrumb, breadCrumb } =
+    countryPhotosStore;
 
   const [activeItem, setActiveItem] = useState<string>(mainTitle);
 
@@ -25,55 +24,51 @@ export const TreeCountries: FC<TreeCountriesProps> = ({ searchValue }) => {
         urlPage: 1,
       });
       setMainTitle(searchCountry);
-      setCurrent(1);
+      sidebarObservable.setCurrentPage(1);
       setBeadCrumb(searchCountry);
-      sidebarObservable.notifyObserversOnChange();
+      sidebarObservable.notifyObserverPagination();
     }
   };
 
-  const handleClick = (item: string) => {
+  const treeItemClick = (item: string) => {
     setActiveItem(item !== activeItem ? item : "");
-  };
-
-  const subMenuHandleClick = (item: string) => {
-    if (mainTitle !== item) {
-      setActiveItem(item !== activeItem ? item : "");
-      onClick(item);
-    }
+    onClick(item);
   };
 
   return (
-    <aside className="sidebar__tree-countries">
-      {continentsItems.map((item: IContinent) => (
-        <div key={item.code}>
-          {!item.countries && (
+    <aside className={styles.sidebar__treeCountries}>
+      {treeItems.map((item: IContinent) => {
+        if (item.countries) {
+          return (
+            <details key={item.code}>
+              <summary className={styles.continent}>
+                <RightOutlined className={styles.continentBeforeArrow} />
+
+                {item.name}
+              </summary>
+              {item.countries.map((country: ICountry) => (
+                <TreeItem
+                  key={country.__typename + country.code}
+                  onClick={treeItemClick}
+                  name={country.name}
+                  isActive={activeItem === country.name}
+                />
+              ))}
+            </details>
+          );
+        }
+
+        if (!item.countries) {
+          return (
             <TreeItem
               key={item.__typename + item.code}
-              onClick={subMenuHandleClick}
+              onClick={treeItemClick}
               name={item.name}
               isActive={activeItem === item.name}
-              hasSubNav={!!item.countries}
             />
-          )}
-          {item.countries && (
-            <>
-              <TreeItem
-                key={item.__typename + item.code}
-                onClick={handleClick}
-                name={item.name}
-                isActive={false}
-                hasSubNav={!!item.countries}
-              />
-              <SubTree
-                key={item.code + item.__typename}
-                activeItem={activeItem}
-                handleClick={subMenuHandleClick}
-                item={item}
-              />
-            </>
-          )}
-        </div>
-      ))}
+          );
+        }
+      })}
     </aside>
   );
 };

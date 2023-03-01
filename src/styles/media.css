@@ -2,39 +2,33 @@
   .image-wrapper {
     width: 50% !important;
   }
+  .ant-image-img,
   .ant-image {
-    height: 400px !important;
-  }
-
-  .ant-image-img {
     height: 400px !important;
   }
 }
 
 @media (max-width: 805px) {
+  .image-wrapper {
+    width: 33% !important;
+  }
   .ant-drawer-body {
     padding: 20px 12px;
   }
-  .main {
-    padding: 0 12px;
-  }
+
   .ant-input,
   .ant-input-search-button {
     height: 30px;
   }
+
   .ant-menu,
   .ant-input,
   .image__photographer {
     font-size: 12px;
   }
-  .image-wrapper {
-    width: 33% !important;
-  }
-  .ant-image {
-    height: 280px !important;
-  }
 
-  .ant-image-img {
+  .ant-image-img,
+  .ant-image {
     height: 280px !important;
   }
 
@@ -47,80 +41,42 @@
   .ant-drawer-content-wrapper {
     width: 200px !important;
   }
-
-  .main h2 {
-    font-size: 30px;
-  }
-
-  .main__top {
-    padding: 4px 0 14px !important;
-  }
 }
 
 @media (max-width: 750px) {
+  .ant-image-img,
   .ant-image {
-    height: 250px !important;
-  }
-
-  .ant-image-img {
     height: 250px !important;
   }
 }
 
 @media (max-width: 650px) {
+  .ant-image-img,
   .ant-image {
-    height: 230px !important;
-  }
-
-  .ant-image-img {
     height: 230px !important;
   }
 }
 
 @media (max-width: 600px) {
-  .main h2 {
-    font-size: 26px;
-  }
-  .main__content-wrapper {
-    justify-content: space-around;
-  }
   .image-wrapper {
     width: 50% !important;
   }
+  .ant-image-img,
   .ant-image {
-    height: 330px !important;
-  }
-
-  .ant-image-img {
     height: 330px !important;
   }
 }
 
 @media (max-width: 550px) {
-  .main__top {
-    flex-direction: column;
-    align-items: center;
-  }
   .crumbs {
     margin-bottom: 12px;
-  }
-
-  .main h2 {
-    font-size: 24px;
-  }
-  .main__content-wrapper {
-    justify-content: space-around;
   }
   .image-wrapper {
     max-width: 400px;
     width: 100% !important;
   }
-
+  .ant-image-img,
   .ant-image {
-    height: 360px !important;
-  }
-
-  .ant-image-img {
     height: 360px !important;
   }
 }
@@ -129,12 +85,8 @@
   .image-wrapper {
     max-width: 370px;
   }
-
+  .ant-image-img,
   .ant-image {
-    height: 360px !important;
-  }
-
-  .ant-image-img {
     height: 360px !important;
   }
 }
@@ -143,12 +95,8 @@
   .image-wrapper {
     max-width: 280px;
   }
-
+  .ant-image-img,
   .ant-image {
-    height: 300px !important;
-  }
-
-  .ant-image-img {
     height: 300px !important;
   }
 }

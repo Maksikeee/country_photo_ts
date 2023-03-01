@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { SaveOutlined } from "@ant-design/icons";
 import { Row } from "antd";
-import { IPhotosDataItem } from "../../../Sidebar/SidebarObservable.interfaces";
+import { SaveOutlined } from "@ant-design/icons";
+
+import { IPhotosDataItem } from "../../../Sidebar/Sidebar.interfaces";
 
 interface ICountryPhotoItemFooterProps {
   showModal: (isOpen: boolean, photo?: IPhotosDataItem) => void;
@@ -23,6 +24,8 @@ export const CountryPhotoItemFooter: FC<ICountryPhotoItemFooterProps> = ({
         bottom: "25px",
         color: "white",
         padding: "0 30px",
+        gap: "10px",
+        flexWrap: "nowrap",
       }}
     >
       <p

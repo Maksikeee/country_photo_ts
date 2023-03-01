@@ -1,18 +1,14 @@
 export interface ICountry {
-    code: string;
-    name: string;
-    __typename: string;
-  }
-  
-  export interface IContinent {
-    code: string;
-    name: string;
-    __typename: string;
-    countries: ICountry[];
-    
-  }
+  code: string;
+  name: string;
+  __typename: string;
+}
 
-  export const continentsData = JSON.parse(
-    localStorage.getItem("continents") as string
-  );
+export interface IContinent {
+  code: string;
+  name: string;
+  __typename: string;
+  countries: ICountry[];
+}
+
 

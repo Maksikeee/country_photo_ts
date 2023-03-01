@@ -1,11 +1,13 @@
 import { Breadcrumb } from "antd";
-import React from "react";
-import { countryPhotos } from "../../../store/CountryPhotos";
 import { RightOutlined } from "@ant-design/icons";
+
+import { countryPhotosStore } from "../../../store/CountryPhotos";
 import sidebarObservable from "../../Sidebar/SidebarObservable";
 
+import styles from "./crumb.module.scss";
+
 export const Crumb: React.FC = () => {
-  const { setMainTitle, setCurrent, breadCrumb, setBeadCrumb } = countryPhotos;
+  const { setMainTitle, breadCrumb, setBeadCrumb } = countryPhotosStore;
 
   const onClick = (searchCountry: React.MouseEvent<HTMLSpanElement>) => {
     if (
@@ -16,36 +18,38 @@ export const Crumb: React.FC = () => {
         urlPage: 1,
       });
       setMainTitle((searchCountry.target as HTMLSpanElement).textContent || "");
-      setCurrent(1);
+      sidebarObservable.setCurrentPage(1);
       setBeadCrumb((searchCountry.target as HTMLSpanElement).textContent || "");
     }
   };
 
   const breadCrumbView = (): React.ReactNode => {
     return (
-      <div>
-        <Breadcrumb separator={<RightOutlined style={{ fontSize: "14px" }} />}>
-          {breadCrumb.map((crumbItem, index) => {
-            if (index !== 0) {
-              return (
-                <Breadcrumb.Item
-                  onClick={(crumbItem) => onClick(crumbItem)}
-                  key={crumbItem}
-                >
-                  {crumbItem}
-                </Breadcrumb.Item>
-              );
-            }
+      <Breadcrumb
+        className="crumbs"
+        separator={<RightOutlined style={{ fontSize: "14px" }} />}
+      >
+        {breadCrumb.map((crumbItem, index) => {
+          if (index !== 0) {
+            return (
+              <Breadcrumb.Item
+                onClick={(crumbItem) => onClick(crumbItem)}
+                key={crumbItem}
+              >
+                {crumbItem}
+              </Breadcrumb.Item>
+            );
+          }
 
-            if (index === 0) {
-              return (
-                <Breadcrumb.Item key={crumbItem}>{crumbItem}</Breadcrumb.Item>
-              );
-            }
-          })}
-        </Breadcrumb>
-      </div>
+          if (index === 0) {
+            return (
+              <Breadcrumb.Item key={crumbItem}>{crumbItem}</Breadcrumb.Item>
+            );
+          }
+        })}
+      </Breadcrumb>
     );
   };
+
   return <>{breadCrumbView()}</>;
 };

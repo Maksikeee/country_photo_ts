@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import { IContinent } from "../components/Sidebar/TreeCountries/TreeCountries.interfaces"
 
 class CountryPhotos {
 
@@ -6,11 +7,6 @@ class CountryPhotos {
     makeAutoObservable(this, undefined, {
       autoBind: true,
     });
-  }
-
-  isLoadingLocalStorage = true
-  setIsLoadingLocalStorage(isLoading: boolean){
-    if(isLoading !== this.isLoadingLocalStorage) this.isLoadingLocalStorage = isLoading
   }
 
   mainTitle = "";
@@ -23,9 +19,10 @@ class CountryPhotos {
     this.isOpenSidebar = !this.isOpenSidebar
   }
 
-  current = 1;
-  setCurrent(page: number) {
-    this.current = page;
+
+  treeItems = [] as IContinent[];
+  setTreeItems(continentsList: IContinent[]): void {
+    this.treeItems = continentsList
   }
 
   breadCrumb: string[] = [];
@@ -37,8 +34,6 @@ class CountryPhotos {
       this.breadCrumb = [historyValue, ...this.breadCrumb];
     }
   }
-  
 }
 
-const countryPhotos = new CountryPhotos();
-export { countryPhotos };
+export const countryPhotosStore = new CountryPhotos();

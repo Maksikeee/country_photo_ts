@@ -1,13 +1,14 @@
-import { IPhotosData } from "./SidebarObservable.interfaces";
-import { ISidebarStateObserver, ISidebarState, ISubject, ISearchFields } from "./SidebarObservable.interfaces"
-import { getURL, getPhotosData } from "./SidebarObservableUtils";
+import { IPhotosData } from "./Sidebar.interfaces";
+import { ISidebarStateObserver, ISidebarState, ISubject, ISearchFields } from "./Sidebar.interfaces"
+import { AUTHORIZATIONT_KEY } from "../../config/config";
+
 
 
 export class Sidebar implements ISubject {
 
   constructor() {
     this.observers = [];
-    this.observersOnChange = [];
+    this.observerPagination = [];
   }
 
   sidebarState: ISidebarState = {
@@ -16,7 +17,7 @@ export class Sidebar implements ISubject {
   }
 
   private observers: ISidebarStateObserver[];
-  private observersOnChange: ISidebarStateObserver[];
+  private observerPagination: ISidebarStateObserver[];
 
 
   searchFields: ISearchFields = {
@@ -24,17 +25,40 @@ export class Sidebar implements ISubject {
     query: "",
   };
 
-  getImg(obj?: ISearchFields) {
+  getImg(newSearchFields?: ISearchFields) {
     this.setSidebarState({ ...this.sidebarState, isLoading: true })
     this.notifyObservers()
-    this.searchFields = { ...this.searchFields, ...obj };
-    const completeURL = getURL(this.searchFields.urlPage, this.searchFields.query)
-    getPhotosData(completeURL);
+    this.searchFields = { ...this.searchFields, ...newSearchFields };
+    this.getPhotosData(this.searchFields.urlPage, this.searchFields.query);
   }
 
-  current = 1;
-  setCurrent(page: number) {
-    this.current = page;
+  getPhotosData = (urlPage: number, query?: string) => {
+    fetch(
+      `https://api.pexels.com/v1/search/?page=${urlPage}&per_page=9&query=${query}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: AUTHORIZATIONT_KEY,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (
+          data.total_results !==
+          sidebarObservable.sidebarState.photosData.total_results
+        ) {
+          sidebarObservable.notifyObserverPagination();
+        }
+        sidebarObservable.setSidebarState({ photosData: data, isLoading: false });
+      })
+      .then(() => sidebarObservable.notifyObservers());
+  };
+
+  currentPage = 1;
+  setCurrentPage(page: number) {
+    this.currentPage = page;
   }
 
   registerObserver = (o: ISidebarStateObserver): void => {
@@ -42,13 +66,13 @@ export class Sidebar implements ISubject {
 
   };
 
-  registerObserverOnChange = (o: ISidebarStateObserver): void => {
-    this.observersOnChange.push(o);
+  registerObserverPagination = (o: ISidebarStateObserver): void => {
+    this.observerPagination.push(o);
 
   };
 
-  setSidebarState = (state: ISidebarState) => {
-    this.sidebarState = state;
+  setSidebarState = (newState: ISidebarState) => {
+    this.sidebarState = newState;
     this.notifyObservers();
   };
 
@@ -56,16 +80,16 @@ export class Sidebar implements ISubject {
     this.observers.forEach((observer: ISidebarStateObserver) => observer.updated(this.sidebarState));
   };
 
-  notifyObserversOnChange = (): void => {
-    this.observersOnChange.forEach((observer: ISidebarStateObserver) => observer.updated(this.sidebarState));
+  notifyObserverPagination = (): void => {
+    this.observerPagination.forEach((observer: ISidebarStateObserver) => observer.updated(this.sidebarState));
   };
 
   removeObserver = (o: ISidebarStateObserver): void => {
     this.observers.splice(this.observers.indexOf(o), 1);
   };
 
-  removeObserverOnChange = (o: ISidebarStateObserver): void => {
-    this.observersOnChange.splice(this.observersOnChange.indexOf(o), 1);
+  removeObserverPagination = (o: ISidebarStateObserver): void => {
+    this.observerPagination.splice(this.observerPagination.indexOf(o), 1);
   };
 
 };

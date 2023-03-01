@@ -1,11 +1,13 @@
 import { FC, useState } from "react";
 import { Image, Col } from "antd";
+
+import { SaveModal } from "./SaveModal";
+import { CountryPhotoItemFooter } from "./CountryPhotoItemFooter";
+
 import {
   IPhotosDataItem,
   IPhotosDataItemSrc,
-} from "../../../Sidebar/SidebarObservable.interfaces";
-import { SaveModal } from "./SaveModal";
-import { CountryPhotoItemFooter } from "./CountryPhotoItemFooter";
+} from "../../../Sidebar/Sidebar.interfaces";
 
 interface ICountryPhotoItemProps {
   photoItem: IPhotosDataItem;
@@ -37,6 +39,7 @@ export const CountryPhotoItem: FC<ICountryPhotoItemProps> = ({ photoItem }) => {
       }}
     >
       <Image
+        className="image-item"
         height={430}
         preview={true}
         style={{

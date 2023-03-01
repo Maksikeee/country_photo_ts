@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Input, Drawer } from "antd";
-import { countryPhotos } from "../../store/CountryPhotos";
+
 import { TreeCountries } from "./TreeCountries/TreeCountries";
+
+import { countryPhotosStore } from "../../store/CountryPhotos";
 
 const { Search } = Input;
 
 export const Sidebar: React.FC = () => {
-  const { isOpenSidebar } = countryPhotos;
+  const { isOpenSidebar } = countryPhotosStore;
   const [searchValue, setSearchValue] = useState<string>("");
 
   const onSearch = (value: string): void => {

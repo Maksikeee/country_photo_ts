@@ -1,9 +1,16 @@
-import { Modal, Button, Select } from "antd";
 import React, { useState } from "react";
+import { Modal, Button, Select } from "antd";
+
 import {
   IPhotosDataItem,
   IPhotosDataItemSrc,
-} from "../../../Sidebar/SidebarObservable.interfaces";
+} from "../../../Sidebar/Sidebar.interfaces";
+
+interface ISaveModalProps {
+  showModal: (isOpen: boolean, photo?: IPhotosDataItem) => void;
+  isOpenModal: boolean;
+  srcOptions: IPhotosDataItemSrc;
+}
 
 interface IOption {
   label: string;
@@ -44,12 +51,6 @@ const optionsItems: IOption[] = [
     value: "tiny",
   },
 ];
-
-interface ISaveModalProps {
-  showModal: (isOpen: boolean, photo?: IPhotosDataItem) => void;
-  isOpenModal: boolean;
-  srcOptions: IPhotosDataItemSrc;
-}
 
 export const SaveModal: React.FC<ISaveModalProps> = ({
   showModal,

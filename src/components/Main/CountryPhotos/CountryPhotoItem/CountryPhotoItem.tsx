@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Image, Col } from "antd";
 
-import { SaveModal } from "./SaveModal";
+import { SaveModal } from "./SaveModal/SaveModal";
 import { CountryPhotoItemFooter } from "./CountryPhotoItemFooter";
 
 import {

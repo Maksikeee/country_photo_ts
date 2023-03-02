@@ -1,56 +1,18 @@
 import React, { useState } from "react";
 import { Modal, Button, Select } from "antd";
 
+import { saveImg, optionsItems } from "./SaveModalUtils";
+
 import {
   IPhotosDataItem,
   IPhotosDataItemSrc,
-} from "../../../Sidebar/Sidebar.interfaces";
+} from "../../../../Sidebar/Sidebar.interfaces";
 
 interface ISaveModalProps {
   showModal: (isOpen: boolean, photo?: IPhotosDataItem) => void;
   isOpenModal: boolean;
   srcOptions: IPhotosDataItemSrc;
 }
-
-interface IOption {
-  label: string;
-  value: string;
-}
-
-const optionsItems: IOption[] = [
-  {
-    label: "landscape",
-    value: "landscape",
-  },
-  {
-    label: "large",
-    value: "large",
-  },
-  {
-    label: "large2x",
-    value: "large2x",
-  },
-  {
-    label: "medium",
-    value: "medium",
-  },
-  {
-    label: "original",
-    value: "original",
-  },
-  {
-    label: "portrait",
-    value: "portrait",
-  },
-  {
-    label: "small",
-    value: "small",
-  },
-  {
-    label: "tiny",
-    value: "tiny",
-  },
-];
 
 export const SaveModal: React.FC<ISaveModalProps> = ({
   showModal,
@@ -59,26 +21,15 @@ export const SaveModal: React.FC<ISaveModalProps> = ({
 }) => {
   const [imgLink, setImgLink] = useState("original");
 
-  const saveImg = (blob: Blob): void => {
-    let link = document.createElement("a");
-    link.setAttribute("href", URL.createObjectURL(blob));
-    link.setAttribute("download", `${Date.now()}`);
-    link.click();
-  };
-
-  const handleCancel = (): void => {
+  const closeModal = (): void => {
     showModal(false);
-  };
-
-  const handleChange = (value: string): void => {
-    handleSetImgLink(value);
   };
 
   const handleSetImgLink = (value: string) => {
     setImgLink(value);
   };
 
-  const handleLoad = (): void => {
+  const downloadImg = (): void => {
     Object.entries(srcOptions).forEach((arr): void => {
       if (arr[0] === imgLink) {
         fetch(arr[1])
@@ -99,10 +50,10 @@ export const SaveModal: React.FC<ISaveModalProps> = ({
       open={isOpenModal}
       title="Выберите размер фотографии, котору следует загрузить"
       footer={[
-        <Button key="back" onClick={handleCancel}>
+        <Button key="back" onClick={closeModal}>
           Отменить
         </Button>,
-        <Button key="link" type="primary" onClick={handleLoad}>
+        <Button key="link" type="primary" onClick={downloadImg}>
           Загрузить
         </Button>,
       ]}
@@ -112,7 +63,7 @@ export const SaveModal: React.FC<ISaveModalProps> = ({
         style={{
           width: 120,
         }}
-        onChange={handleChange}
+        onChange={handleSetImgLink}
         options={optionsItems}
       />
     </Modal>

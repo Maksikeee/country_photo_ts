@@ -5,7 +5,7 @@ export const SkeletonPhotoItem: React.FC = () => {
   return (
     <>
       <Col
-        className="image-wrapper"
+        className="photo-wrapper"
         flex="stretch"
         style={{
           width: "33%",

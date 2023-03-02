@@ -1,5 +1,4 @@
 import { FC } from "react";
-import styles from "./treeItem.module.scss";
 
 type ButtonProps = {
   onClick: (item: string) => void;
@@ -13,7 +12,7 @@ export const TreeItem: FC<ButtonProps> = ({ onClick, name, isActive }) => (
   <button
     type="button"
     onClick={() => onClick(name)}
-    className={`${styles.treeItem} ${isActive ? styles.active : ""}`}
+    className={`sidebar__country ${isActive ? "active" : ""}`}
   >
     <span>{name}</span>
   </button>

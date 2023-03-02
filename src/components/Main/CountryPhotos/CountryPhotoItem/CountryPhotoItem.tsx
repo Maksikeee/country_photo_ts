@@ -31,7 +31,7 @@ export const CountryPhotoItem: FC<ICountryPhotoItemProps> = ({ photoItem }) => {
 
   return (
     <Col
-      className="image-wrapper"
+      className="photo-wrapper"
       flex="stretch"
       style={{
         width: "33%",
@@ -39,7 +39,6 @@ export const CountryPhotoItem: FC<ICountryPhotoItemProps> = ({ photoItem }) => {
       }}
     >
       <Image
-        className="image-item"
         height={430}
         preview={true}
         style={{

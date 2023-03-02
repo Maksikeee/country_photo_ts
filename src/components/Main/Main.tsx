@@ -7,16 +7,14 @@ import PagePagination from "./Pagination/Pagination";
 
 import { countryPhotosStore } from "../../store/CountryPhotos";
 
-import styles from "./main.module.scss";
-
 export const Main: React.FC = observer(() => {
   const { mainTitle } = countryPhotosStore;
 
   return (
-    <main className={styles.main}>
-      <h2>{mainTitle}</h2>
+    <main className="main">
+      <h2 className="main__title">{mainTitle}</h2>
       <Row
-        className={styles.main__top}
+        className="main__top-wrapper"
         wrap={false}
         justify="space-between"
         style={{ padding: "30px 0" }}
@@ -29,7 +27,7 @@ export const Main: React.FC = observer(() => {
         </Col>
       </Row>
       <Row
-        className={styles.main__contentWrapper}
+        className="main__content-wrapper"
         gutter={[8, 0]}
         justify="space-between"
       >

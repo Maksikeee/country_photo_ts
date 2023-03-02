@@ -8,8 +8,6 @@ import sidebarObservable from "../SidebarObservable";
 import { getTreeItems } from "./TreeCountriesUtils";
 import { IContinent, ICountry } from "./TreeCountries.interfaces";
 
-import styles from "./styleTreeCountries.module.scss";
-
 export const TreeCountries: FC<{ searchValue: string }> = ({ searchValue }) => {
   const treeItems = getTreeItems(searchValue);
   const { mainTitle, setMainTitle, setBeadCrumb, breadCrumb } =
@@ -36,13 +34,13 @@ export const TreeCountries: FC<{ searchValue: string }> = ({ searchValue }) => {
   };
 
   return (
-    <aside className={styles.sidebar__treeCountries}>
+    <aside className="sidebar__tree">
       {treeItems.map((item: IContinent) => {
         if (item.countries) {
           return (
-            <details key={item.code}>
-              <summary className={styles.continent}>
-                <RightOutlined className={styles.continentBeforeArrow} />
+            <details className="sidebar__sub-tree" key={item.code}>
+              <summary className="sidebar__continent">
+                <RightOutlined className="sidebar__continent-arrow" />
 
                 {item.name}
               </summary>

@@ -16,7 +16,7 @@ export const CountryPhotoItemFooter: FC<ICountryPhotoItemFooterProps> = ({
   return (
     <Row
       justify="space-between"
-      className="image__description"
+      className="photo__description"
       style={{
         alignItems: "center",
         width: "100%",
@@ -29,7 +29,7 @@ export const CountryPhotoItemFooter: FC<ICountryPhotoItemFooterProps> = ({
       }}
     >
       <p
-        className="image__photographer"
+        className="photo__photographer"
         style={{ margin: "0", fontWeight: "500" }}
       >
         {photoItem.photographer}

@@ -1,5 +1,5 @@
 @media (max-width: 1040px) {
-  .image-wrapper {
+  .photo-wrapper {
     width: 50% !important;
   }
   .ant-image-img,
@@ -9,7 +9,19 @@
 }
 
 @media (max-width: 805px) {
-  .image-wrapper {
+  .main {
+    padding: 0 12px;
+  }
+
+  .main__title {
+    font-size: 30px;
+  }
+
+  .main__top-wrapper {
+    padding: 4px 0 14px !important;
+  }
+
+  .photo-wrapper {
     width: 33% !important;
   }
   .ant-drawer-body {
@@ -23,7 +35,7 @@
 
   .ant-menu,
   .ant-input,
-  .image__photographer {
+  .photo__photographer {
     font-size: 12px;
   }
 
@@ -58,7 +70,15 @@
 }
 
 @media (max-width: 600px) {
-  .image-wrapper {
+  .main__title {
+    font-size: 26px;
+  }
+
+  .main__content-wrapper {
+    justify-content: space-around;
+  }
+
+  .photo-wrapper {
     width: 50% !important;
   }
   .ant-image-img,
@@ -68,10 +88,23 @@
 }
 
 @media (max-width: 550px) {
+  .main__top-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main__title {
+    font-size: 24px;
+  }
+
+  .main__content-wrapper {
+    justify-content: space-around;
+  }
+
   .crumbs {
     margin-bottom: 12px;
   }
-  .image-wrapper {
+  .photo-wrapper {
     max-width: 400px;
     width: 100% !important;
   }
@@ -82,7 +115,7 @@
 }
 
 @media (max-width: 450px) {
-  .image-wrapper {
+  .photo-wrapper {
     max-width: 370px;
   }
   .ant-image-img,
@@ -92,7 +125,7 @@
 }
 
 @media (max-width: 410px) {
-  .image-wrapper {
+  .photo-wrapper {
     max-width: 280px;
   }
   .ant-image-img,

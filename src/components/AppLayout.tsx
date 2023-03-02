@@ -18,7 +18,7 @@ export const AppLayout: React.FC = observer(() => {
   const { data, loading, error } = useQuery(LIST_COUNTRIES, { client });
 
   if (loading || error) {
-    return <div className="loader">loading...</div>;
+    return <div className="loader-app">loading...</div>;
   } else {
     setTreeItems(data.continents);
   }
